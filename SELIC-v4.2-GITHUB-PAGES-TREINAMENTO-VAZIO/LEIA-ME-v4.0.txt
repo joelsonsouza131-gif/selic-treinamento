@@ -1,0 +1,20 @@
+SEAD v4.0 — DIVACP, DIVCON, CEC, CPC E DIPREG (integrados)
+
+Para abrir: INICIAR-SISTEMA-5-SETORES.bat (Windows).
+Todos no mesmo navegador, origem http://localhost:8765.
+Não exclua dados do navegador. O armazenamento local deve ser preservado.
+
+DIPREG criada usando a CPC v3.9.1 como modelo:
+- Visão Geral, Recebimento, Processos, Agenda, Relatórios e Configurações
+- Data Entrada automática e recebimento persistente após F5
+- Os mesmos campos próprios de CEC/CPC, com sufixo Dipreg
+- RECURSO: datas de fim dos recursos, contrarrazões e decisão
+- FINALIZADO: Data Saída automática, Valor Adjudicado em R$ e Planilha SEI
+- Valor Estimado vem da DIVACP, somente consulta
+- Notificação do Windows e áudio DIPREG separados
+- Os dados da DIVCON ficam para consulta se o processo passar por ela
+- Envio para outros setores, histórico e seleção em lote
+
+DIVACP, DIVCON, CEC e CPC permanecem com seus arquivos originais da v3.9.1.
+Apenas sead-sync.js foi estendido para sincronizar a DIPREG.
+A integração funciona no mesmo navegador/computador; múltiplos computadores exigem backend central.

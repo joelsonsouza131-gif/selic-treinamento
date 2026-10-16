@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DIVCON | Controle de Processos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="divcon-style.css" />
+  <script src="selic-treinamento-inicial.js"></script>
+</head>
+<body>
+
+  <aside class="sidebar-shell" id="sidebarShell">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark" aria-label="Identidade do sistema">D</div>
+      <div>
+        <strong>DIVCON</strong>
+        <span>Controle de Processos</span>
+      </div>
+    </div>
+
+    <div class="sidebar-caption">CONTROLE DIVCON</div>
+    <div class="sidebar-group-title">PRINCIPAL</div>
+
+    <nav class="main-nav" aria-label="Navegação principal">
+        <button class="nav-tab active" data-section="dashboard" data-menu-label="Visão geral">
+          <img
+            class="nav-tab-image nav-tab-gif"
+            src="dashboard-static.png"
+            data-static="dashboard-static.png"
+            data-animated="dashboard-icon.gif"
+            alt="Ícone do Dashboard"
+          />
+          <span>Visão geral</span>
+        </button>
+
+        <button class="nav-tab receipt-nav-tab" data-section="recebimento" data-menu-label="Recebimento">
+          <div class="nav-tab-image receipt-bell-frame" aria-hidden="true">
+            <img
+              id="receiptNavBellIcon"
+              class="receipt-bell-icon"
+              src="sino.png"
+              alt=""
+            />
+          </div>
+          <span>Recebimento</span>
+          <span class="nav-notification-badge" id="receiptNavBadge" hidden>0</span>
+        </button>
+
+        <button class="gif-trigger nav-tab" data-section="processos" data-menu-label="Processos">
+          <img
+            class="hover-gif nav-tab-image nav-tab-gif"
+            src="custom-processos-static.png"
+            data-static="custom-processos-static.png"
+            data-animated="custom-processos.gif"
+            alt="Ícone de processos"
+          />
+          <span>Processos</span>
+        </button>
+<button class="nav-tab" data-section="relatorios" data-menu-label="Relatórios">
+          <img
+            class="nav-tab-image nav-tab-hover-motion report-motion"
+            src="relatorios-static.png"
+            alt="Ícone de relatórios"
+          />
+          <span>Relatórios</span>
+        </button>
+      </nav>
+
+    <div class="sidebar-bottom">
+<button class="sidebar-user-profile gif-trigger" id="sidebarProfileButton" type="button" title="Abrir Perfil" data-menu-label="Perfil do usuário">
+        <img
+          class="sidebar-profile-avatar hover-gif"
+          id="sidebarProfileAvatar"
+          src="perfil-static.png"
+          data-static="perfil-static.png"
+          data-animated="perfil-icon.gif"
+          alt="Perfil"
+        />
+        <span class="sidebar-profile-info">
+          <strong id="sidebarProfileName">DIVCON</strong>
+          <small>Perfil do usuário</small>
+        </span>
+      </button>
+
+      <span class="sidebar-environment">Ambiente operacional</span>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Expandir ou retrair menu"><span></span><span></span><span></span></button>
+        <div>
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageSubtitle">Acompanhamento dos processos recebidos pela DIVCON.</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <div class="search-box" id="searchBox">
+          <span>⌕</span>
+          <input id="globalSearch" type="search" placeholder="Buscar processo ou licitação..." />
+        </div>
+        <div class="notification-center" id="notificationCenter">
+          <button class="notification-bell-button" id="notificationButton" type="button" aria-label="Notificações de recebimento" aria-expanded="false">
+            <img id="notificationBellIcon" src="sino.png" alt="Notificações" />
+            <span class="notification-count" id="notificationBadge" hidden>0</span>
+          </button>
+          <div class="notification-dropdown" id="notificationDropdown" hidden>
+            <div class="notification-dropdown-head">
+              <strong>Recebimentos</strong>
+              <span id="notificationDropdownCount">0 pendentes</span>
+            </div>
+            <div class="notification-list" id="notificationList"></div>
+          </div>
+        </div>
+        <div class="profile-menu" id="profileMenu">
+          <button
+            class="profile-button gif-trigger"
+            id="profileButton"
+            type="button"
+            aria-label="Abrir perfil"
+            aria-expanded="false"
+            aria-controls="profileDropdown"
+          >
+            <img
+              class="profile-icon hover-gif"
+              src="perfil-static.png"
+              data-static="perfil-static.png"
+              data-animated="perfil-icon.gif"
+              alt=""
+            />
+            <span class="profile-chevron">⌄</span>
+          </button>
+
+          <div class="profile-dropdown" id="profileDropdown" hidden>
+            <div class="profile-dropdown-header">
+              <strong id="profileDisplayName">DIVCON</strong>
+              <span>Perfil do usuário</span>
+            </div>
+
+            <button class="profile-action gif-trigger" id="settingsButton" type="button">
+              <img
+                class="profile-action-icon hover-gif"
+                src="configuracao-static.png"
+                data-static="configuracao-static.png"
+                data-animated="configuracao-icon.gif"
+                alt=""
+              />
+              <span>Configurações</span>
+            </button>
+
+            <button class="profile-action logout-action gif-trigger" id="logoutButton" type="button">
+              <img
+                class="profile-action-icon hover-gif"
+                src="sair-static.png"
+                data-static="sair-static.png"
+                data-animated="sair-icon.gif"
+                alt=""
+              />
+              <span>Sair</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="content">
+</div>
+
+      
+
+      <!-- DASHBOARD -->
+      <section class="app-section active" id="section-dashboard">
+        <div class="dashboard-context">
+          <span id="dashboardDateLabel"></span>
+          <span class="layout-test-label">LAYOUT DE TESTE</span>
+        </div>
+
+        <div class="stats-grid operational-stats" id="dashboardOperationalStats">
+          <button class="stat-card stat-button active-filter gif-trigger" data-process-filter="todos" data-filter-scope="dashboard">
+            <div class="stat-icon blue ribbon-icon process-card-icon">
+              <img
+                class="hover-gif status-process-motion"
+                src="custom-processos-static.png"
+                data-static="custom-processos-static.png"
+                data-animated="custom-processos.gif"
+                alt="Ícone de processos"
+              />
+            </div>
+            <div>
+              <span>Processos</span>
+              <strong id="totalProcessos" data-stat-count="processos">0</strong>
+            </div>
+          </button>
+
+          <button class="stat-card stat-button gif-trigger awaiting-opening-card" data-process-filter="Aguardando abertura" data-filter-scope="dashboard">
+            <div class="stat-icon orange ribbon-icon">
+              <img
+                class="hover-gif awaiting-opening-motion"
+                src="custom-aguardando-abertura-static.png"
+                data-static="custom-aguardando-abertura-static.png"
+                data-animated="custom-aguardando-abertura.gif"
+                alt="Ícone de aguardando abertura"
+              />
+            </div>
+            <div>
+              <span>Aguardando Abertura</span>
+              <strong id="totalAguardandoAbertura" data-stat-count="aguardando">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="Aberto" data-filter-scope="dashboard">
+            <div class="stat-icon blue"><img class="hover-gif status-custom-icon status-open-motion" src="custom-aberto-static.png" alt="Ícone de aberto" data-static="custom-aberto-static.png" data-animated="custom-aberto.gif" /></div>
+            <div>
+              <span>Aberto</span>
+              <strong id="totalAberto" data-stat-count="aberto">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="Aguardando reabertura" data-filter-scope="dashboard">
+            <div class="stat-icon orange"><img class="hover-gif status-custom-icon status-reopen-motion" src="custom-reabertura-static.png" alt="Ícone de aguardando reabertura" data-static="custom-reabertura-static.png" data-animated="custom-reabertura.gif" /></div>
+            <div>
+              <span>Aguardando Reabertura</span>
+              <strong id="totalAguardandoReabertura" data-stat-count="reabertura">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="Finalizado" data-filter-scope="dashboard">
+            <div class="stat-icon green"><img class="hover-gif status-custom-icon status-final-motion" src="custom-finalizado-static.png" alt="Ícone de finalizado" data-static="custom-finalizado-static.png" data-animated="custom-finalizado.gif" /></div>
+            <div>
+              <span>Finalizado</span>
+              <strong id="totalFinalizado" data-stat-count="finalizado">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="dia" data-filter-scope="dashboard">
+            <div class="stat-icon purple"><img class="hover-gif status-custom-icon status-day-motion" src="custom-processos-dia-static.png" alt="Ícone de processos do dia" data-static="custom-processos-dia-static.png" data-animated="custom-processos-dia.gif" /></div>
+            <div>
+              <span>Processos do Dia</span>
+              <strong id="totalProcessosDia" data-stat-count="dia">0</strong>
+            </div>
+          </button>
+        </div>
+
+        <div class="layout-grid divcon-dashboard-processes-full">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <span class="panel-kicker">ACOMPANHAMENTO</span>
+                <h3>Processos em acompanhamento na DIVCON</h3>
+                <p class="section-description">Acompanhe os processos e a tramitação da DIVCON.</p>
+              </div>
+              <div class="panel-actions process-panel-actions dashboard-bulk-actions">
+                <div class="process-search-box">
+                  <span aria-hidden="true">⌕</span>
+                  <input id="dashboardSearch" type="search" placeholder="Buscar processo ou licitação..." autocomplete="off" aria-label="Buscar processos na Visão Geral" />
+                </div>
+                <button class="process-action-btn send-process-action" id="dashboardSendBtn" type="button">Enviar processo</button>
+                
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="bulk-select-heading"><input type="checkbox" class="bulk-select-all" data-bulk-all="dashboard" aria-label="Selecionar todos os processos disponíveis nesta tabela" title="Selecionar processos visíveis e disponíveis" /></th>
+                    <th>Processo</th>
+                    <th>Objeto</th>
+                    <th>Órgão</th>
+                    <th>Modalidade</th>
+                    <th>Nr. Licitação</th>
+                    <th>Setor</th>
+                  <th>Status</th>
+                  <th>Link</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboardProcessTable"></tbody>
+              </table>
+            </div>
+          </section>
+
+
+        </div>
+      </section>
+
+      <!-- RECEBIMENTO -->
+      <section class="app-section" id="section-recebimento">
+        <div class="receipt-summary-grid">
+          <article class="receipt-summary-card pending">
+            <span>Aguardando recebimento</span>
+            <strong id="receiptPendingCount">0</strong>
+          </article>
+          <article class="receipt-summary-card received">
+            <span>Recebidos pela DIVCON</span>
+            <strong id="receiptReceivedCount">0</strong>
+          </article>
+        </div>
+
+        <section class="panel page-panel">
+          <div class="panel-header page-panel-header">
+            <div>
+              <span class="panel-kicker">RECEBIMENTO DIVCON</span>
+              <h3>Processos encaminhados para a DIVCON</h3>
+              <p class="section-description">Os processos enviados para a DIVCON aparecem aqui até a confirmação do recebimento.</p>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Processo</th>
+                  <th>Órgão</th>
+                  <th>Objeto</th>
+                  <th>Nr. Licitação</th>
+                  <th>Origem</th>
+                  <th>Situação</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody id="recebimentoTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- PROCESSOS -->
+      <section class="app-section" id="section-processos">
+        <div class="stats-grid operational-stats process-operational-stats" id="processOperationalStats">
+          <button class="stat-card stat-button active-filter gif-trigger" data-process-filter="todos" data-filter-scope="processos">
+            <div class="stat-icon blue ribbon-icon process-card-icon">
+              <img
+                class="hover-gif status-process-motion"
+                src="custom-processos-static.png"
+                data-static="custom-processos-static.png"
+                data-animated="custom-processos.gif"
+                alt="Ícone de processos"
+              />
+            </div>
+            <div>
+              <span>Processos</span>
+              <strong data-stat-count="processos">0</strong>
+            </div>
+          </button>
+
+          <button class="stat-card stat-button gif-trigger awaiting-opening-card" data-process-filter="Aguardando abertura" data-filter-scope="processos">
+            <div class="stat-icon orange ribbon-icon">
+              <img
+                class="hover-gif awaiting-opening-motion"
+                src="custom-aguardando-abertura-static.png"
+                data-static="custom-aguardando-abertura-static.png"
+                data-animated="custom-aguardando-abertura.gif"
+                alt="Ícone de aguardando abertura"
+              />
+            </div>
+            <div>
+              <span>Aguardando Abertura</span>
+              <strong data-stat-count="aguardando">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="Aberto" data-filter-scope="processos">
+            <div class="stat-icon blue"><img class="hover-gif status-custom-icon status-open-motion" src="custom-aberto-static.png" alt="Ícone de aberto" data-static="custom-aberto-static.png" data-animated="custom-aberto.gif" /></div>
+            <div>
+              <span>Aberto</span>
+              <strong data-stat-count="aberto">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="Aguardando reabertura" data-filter-scope="processos">
+            <div class="stat-icon orange"><img class="hover-gif status-custom-icon status-reopen-motion" src="custom-reabertura-static.png" alt="Ícone de aguardando reabertura" data-static="custom-reabertura-static.png" data-animated="custom-reabertura.gif" /></div>
+            <div>
+              <span>Aguardando Reabertura</span>
+              <strong data-stat-count="reabertura">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="Finalizado" data-filter-scope="processos">
+            <div class="stat-icon green"><img class="hover-gif status-custom-icon status-final-motion" src="custom-finalizado-static.png" alt="Ícone de finalizado" data-static="custom-finalizado-static.png" data-animated="custom-finalizado.gif" /></div>
+            <div>
+              <span>Finalizado</span>
+              <strong data-stat-count="finalizado">0</strong>
+            </div>
+          </button>
+
+          <button class="gif-trigger stat-card stat-button" data-process-filter="dia" data-filter-scope="processos">
+            <div class="stat-icon purple"><img class="hover-gif status-custom-icon status-day-motion" src="custom-processos-dia-static.png" alt="Ícone de processos do dia" data-static="custom-processos-dia-static.png" data-animated="custom-processos-dia.gif" /></div>
+            <div>
+              <span>Processos do Dia</span>
+              <strong data-stat-count="dia">0</strong>
+            </div>
+          </button>
+        </div>
+
+        <section class="panel page-panel">
+          <div class="panel-header page-panel-header">
+            <div>
+              <span class="panel-kicker">PROCESSOS DIVCON</span>
+              <h3>Processos cadastrados</h3>
+              <p class="section-description">Clique no número do processo para consultar e atualizar os dados de responsabilidade da DIVCON.</p>
+            </div>
+
+            <div class="panel-actions process-panel-actions">
+              <div class="process-search-box">
+                <span aria-hidden="true">⌕</span>
+                <input id="processSearch" type="search" placeholder="Buscar processo ou licitação..." autocomplete="off" />
+              </div>
+              <button class="process-action-btn send-process-action" id="sendProcessBtn" type="button">Enviar processo</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th class="bulk-select-heading"><input type="checkbox" class="bulk-select-all" data-bulk-all="processos" aria-label="Selecionar todos os processos disponíveis nesta tabela" title="Selecionar processos visíveis e disponíveis" /></th>
+                    <th>Processo</th>
+                  <th>Objeto</th>
+                  <th>Órgão</th>
+                  <th>Modalidade</th>
+                  <th>Nr. Licitação</th>
+                  <th>Setor</th>
+                  <th>Status</th>
+                  <th>Link</th>
+                </tr>
+              </thead>
+              <tbody id="processTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- DETALHE / EDIÇÃO DO PROCESSO -->
+      <section class="app-section" id="section-processo-detalhe">
+        <section class="panel page-panel process-detail-panel">
+          <div class="detail-topbar">
+            <button class="secondary-btn" id="backToProcessos">← Voltar para Processos</button>
+            <span class="detail-badge">Cadastro completo do processo</span>
+          </div>
+
+          <div class="detail-heading">
+            <div>
+              <span class="panel-kicker">PROCESSO</span>
+              <h3 id="detailProcessTitle">Informações do processo</h3>
+              <p>Cada setor altera somente os seus próprios campos. Os dados preenchidos pela <strong>DIVACP</strong> e pelos demais setores permanecem bloqueados para consulta.</p>
+            </div>
+          </div>
+
+          <form id="editProcessForm" class="detail-form">
+            <input type="hidden" name="id" />
+
+            <fieldset class="form-section locked-section">
+              <legend>Identificação do processo <span class="locked-sector-label">Preenchimento pela DIVACP</span></legend>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Nr. Processo
+                  <input id="editNumeroProcesso" class="uppercase-input no-space-input" name="numero" required />
+                </label>
+
+                <label>
+                  Data Entrada SELIC
+                  <input name="dataEntradaSelic" type="date" />
+                </label>
+
+                <label>
+                  Órgão
+                  <select id="editOrgao" name="orgao">
+                    <option value="">Selecione o órgão</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Objeto
+                <textarea id="editObjeto" class="uppercase-input" name="objeto" rows="4" placeholder="DESCREVA O OBJETO DO PROCESSO."></textarea>
+              </label>
+            </fieldset>
+
+            <fieldset class="form-section locked-section">
+              <legend>Dados da licitação <span class="locked-sector-label">Preenchimento pela DIVACP</span></legend>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Modalidade
+                  <select id="editModalidade" name="modalidade">
+                    <option value="">Selecione a modalidade</option>
+                  </select>
+                </label>
+
+                <label>
+                  Nr. Licitação
+                  <input
+                    id="editNumeroLicitacao"
+                    name="numeroLicitacao"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Ex.: 175/2026"
+                  />
+                  <small class="field-help">Informação cadastrada pela DIVACP — somente consulta na DIVCON.</small>
+                </label>
+
+                <label class="year-field">
+                  Ano da Licitação
+                  <input name="anoLicitacao" type="number" min="2000" max="2100" placeholder="2026" readonly />
+                </label>
+              </div>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Fonte
+                  <input id="editFonte" class="uppercase-input" name="fonte" />
+                </label>
+
+                <label>
+                  Valor Estimado
+                  <input
+                    id="editValorEstimado"
+                    class="currency-input"
+                    name="valorEstimado"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="R$ 0,00"
+                  />
+                </label>
+
+                <label>
+                  Itens/Lote
+                  <input name="itensLote" placeholder="Ex.: Itens 01 a 10 / Lote 01" />
+                </label>
+              </div>
+
+              <label>
+                Link <span class="optional-label">(opcional)</span>
+                <div class="link-input-group">
+                  <input
+                    id="editLinkProcesso"
+                    name="linkProcesso"
+                    type="url"
+                    placeholder="—"
+                    readonly
+                    aria-readonly="true"
+                    title="Link registrado pela DIVACP. Apenas a DIVACP pode alterar este endereço."
+                  />
+                  <button
+                    type="button"
+                    class="secondary-btn open-link-btn"
+                    data-link-input="editLinkProcesso"
+                    disabled
+                  >🔗 Abrir link</button>
+                  <span class="missing-link-indicator" id="editMissingLink" hidden aria-label="Link não cadastrado">—</span>
+                </div>
+                <small class="field-help">Link informado pela DIVACP. Os demais setores podem abrir, mas não modificar.</small>
+              </label>
+            </fieldset>
+
+            <fieldset class="form-section divcon-owned-section">
+              <legend>Dados da DIVCON <span class="divcon-owner-label">Preenchimento pela DIVCON</span></legend>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Data Entrada DIVCON
+                  <input name="dataEntradaDivcon" type="date" readonly aria-readonly="true" title="Preenchida automaticamente na confirmação do recebimento do processo" />
+                  <small class="field-help">Registrada automaticamente ao clicar em Receber. Não permite alteração.</small>
+                </label>
+
+                <label>
+                  SITUAÇÃO/MINUT/EDITAL
+                  <select id="editSituacaoMinutEdital" name="situacaoMinutEdital">
+                    <option value="">SELECIONE</option>
+                  </select>
+                </label>
+
+                <label>
+                  DATA ENVIO JURÍDICO
+                  <input name="dataEnvioJuridico" type="date" />
+                </label>
+              </div>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  DATA DE ENVIO ÓRGÃO
+                  <input id="editOrgaoDivcon" name="orgaoDivcon" type="date" />
+                </label>
+
+                <label>
+                  ABERTURA PREGÃO
+                  <input name="aberturaPregao" type="date" />
+                </label>
+
+                <label>
+                  RESPONSÁVEL PELA PUBLICAÇÃO
+                  <select id="editResponsavelPublicacao" name="responsavelPublicacao">
+                    <option value="">SELECIONE</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  PREGOEIRO
+                  <select id="editPregoeiroDivcon" name="pregoeiroDivcon">
+                    <option value="">SELECIONE</option>
+                  </select>
+                </label>
+
+                <label>
+                  STATUS
+                  <select id="editStatusDivcon" name="statusDivcon">
+                    <option value="">SELECIONE</option>
+                  </select>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-section locked-section">
+              <legend>CPC / CEC / DIPREG <span class="locked-sector-label">Preenchimento pelo setor responsável</span></legend>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Pregoeiro(a)
+                  <input name="responsavel" />
+                </label>
+
+                <label>
+                  Setor do Responsável
+                  <input name="setorResponsavel" />
+                </label>
+
+                <label>
+                  Status
+                  <select id="editStatus" name="status" required>
+                    <option>Aguardando abertura</option>
+                    <option>Aberto</option>
+                    <option>Aguardando reabertura</option>
+                    <option>Finalizado</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Data Inicial
+                  <input name="dataInicial" type="date" />
+                </label>
+
+                <label>
+                  Data Final
+                  <input name="dataFinal" type="date" />
+                </label>
+
+                <label>
+                  Data de Abertura
+                  <input name="dataAbertura" type="date" />
+                </label>
+              </div>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Hora
+                  <input name="hora" type="time" />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-section locked-section">
+              <legend>Valores <span class="locked-sector-label">Preenchimento pelo setor responsável</span></legend>
+
+              <div class="form-grid form-grid-3">
+                <label>
+                  Valor Deserto/Fracassado
+                  <input
+                    id="editValorDesertoFracassado"
+                    class="currency-input"
+                    name="valorDesertoFracassado"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="R$ 0,00"
+                  />
+                </label>
+
+                <label>
+                  Valor Estimado Atualizado
+                  <input
+                    id="editValorEstimadoAtualizado"
+                    class="currency-input"
+                    name="valorEstimadoAtualizado"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="R$ 0,00"
+                  />
+                </label>
+
+                <label>
+                  Valor Adjudicado
+                  <input
+                    id="editValorAdjudicado"
+                    class="currency-input"
+                    name="valorAdjudicado"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="R$ 0,00"
+                  />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-section locked-section">
+              <legend>Andamento e documentos <span class="locked-sector-label">Preenchimento pelo setor responsável</span></legend>
+
+              <label>
+                Andamento
+                <textarea name="andamento" rows="5" placeholder="Descreva o andamento atual do processo."></textarea>
+              </label>
+
+              <label>
+                SEI Planilha Comparativa
+                <input name="seiPlanilhaComparativa" placeholder="Informe o número SEI, link ou referência da planilha comparativa." />
+              </label>
+            </fieldset>
+
+            <div class="form-actions sticky-form-actions process-detail-actions">
+              <button type="button" class="secondary-btn process-action-btn" id="historyProcessBtn">
+                Histórico
+              </button>
+              <button type="button" class="secondary-btn process-action-btn" id="cancelEditBtn">
+                Cancelar
+              </button>
+              <button type="submit" class="primary-btn process-action-btn">
+                Salvar alterações
+              </button>
+            </div>
+          </form>
+        </section>
+      </section>
+
+      <!-- AGENDA -->
+      <section class="app-section" id="section-agenda">
+        <section class="panel page-panel">
+          <div class="calendar-header agenda-main-header">
+            
+
+            <button class="secondary-btn print-agenda-btn" type="button" title="Imprimir a agenda atual em PDF">🖨 Imprimir PDF</button>
+            <button class="secondary-btn holiday-manage-open" id="openHolidayManager" type="button">
+              + Cadastrar feriado
+            </button>
+          </div>
+<div class="calendar-toolbar">
+            <div class="segmented-control" aria-label="Visualização do calendário">
+              <button class="calendar-view-btn active" data-view="day">Dia</button>
+              <button class="calendar-view-btn" data-view="month">Mês</button>
+              <button class="calendar-view-btn" data-view="year">Ano</button>
+            </div>
+
+            <div class="calendar-navigation">
+              <button class="calendar-nav-btn" id="calendarPrev" aria-label="Anterior">‹</button>
+              <button class="secondary-btn" id="calendarToday">Hoje</button>
+              <button class="calendar-nav-btn" id="calendarNext" aria-label="Próximo">›</button>
+            </div>
+
+            <h4 class="calendar-title" id="calendarTitle"></h4>
+          </div>
+
+          <div id="calendarContent"></div>
+        </section>
+      </section>
+
+      <!-- PRAZOS -->
+      <section class="app-section" id="section-prazos">
+        <div class="deadline-summary">
+          <article class="deadline-summary-card warning">
+            <span>Próximos do prazo</span>
+            <strong id="deadlineUpcomingCount">0</strong>
+          </article>
+          <article class="deadline-summary-card danger">
+            <span>Vencidos</span>
+            <strong id="deadlineOverdueCount">0</strong>
+          </article>
+          <article class="deadline-summary-card success">
+            <span>Concluídos</span>
+            <strong id="deadlineDoneCount">0</strong>
+          </article>
+        </div>
+
+        <section class="panel page-panel">
+          <div class="panel-header">
+            <div>
+              <span class="panel-kicker">CONTROLE DE PRAZOS</span>
+              <h3>Prazos dos processos</h3>
+              <p class="section-description">Acompanhe vencimentos e abra o processo diretamente pelo número.</p>
+            </div>
+
+            <select id="deadlineFilter">
+              <option value="todos">Todos</option>
+              <option value="proximos">Próximos</option>
+              <option value="vencidos">Vencidos</option>
+              <option value="concluidos">Concluídos</option>
+            </select>
+          </div>
+
+          <div class="deadline-list" id="deadlineList"></div>
+        </section>
+      </section>
+
+
+      <!-- RELATÓRIOS -->
+      <section class="app-section" id="section-relatorios">
+        <section class="panel page-panel reports-page-panel">
+          <div class="panel-header reports-main-header">
+            <div>
+              <span class="panel-kicker">RELATÓRIOS DIVCON</span>
+              <h3>Relatórios</h3>
+              <p class="section-description">
+                Analise os processos por meio de filtros e gráficos dinâmicos.
+              </p>
+            </div>
+
+            <div class="report-export-actions">
+              <button class="secondary-btn report-download-btn excel" id="reportExportExcel" type="button">
+                <span>↓</span> Baixar Excel
+              </button>
+              <button class="secondary-btn report-download-btn pdf" id="reportExportPdf" type="button">
+                <span>↓</span> Baixar PDF
+              </button>
+            </div>
+          </div>
+
+          <div class="report-filters">
+            <label>
+              Ano
+              <select id="reportYearFilter">
+                <option value="">Todos</option>
+              </select>
+            </label>
+
+            <label>
+              Órgão
+              <select id="reportOrgaoFilter">
+                <option value="">Todos</option>
+              </select>
+            </label>
+
+            <label>
+              Modalidade
+              <select id="reportModalidadeFilter">
+                <option value="">Todas</option>
+              </select>
+            </label>
+
+            <label>
+              Status
+              <select id="reportStatusFilter">
+                <option value="">Todos</option>
+              </select>
+            </label>
+
+            <label>
+              Pregoeiro(a)
+              <select id="reportPregoeiroFilter">
+                <option value="">Todos</option>
+              </select>
+            </label>
+
+            <label>
+              Setor
+              <select id="reportSetorFilter">
+                <option value="">Todos</option>
+              </select>
+            </label>
+
+            <label class="report-search-field">
+              Pesquisar
+              <input
+                id="reportSearchInput"
+                type="search"
+                placeholder="Processo, licitação, objeto..."
+                autocomplete="off"
+              />
+            </label>
+
+            <button class="secondary-btn report-clear-btn" id="reportClearFilters" type="button">
+              Limpar filtros
+            </button>
+          </div>
+<section class="report-chart-panel multi-report-chart-panel">
+            <div class="report-chart-header multi-report-chart-header">
+              <div>
+                <span class="panel-kicker">VISUALIZAÇÃO DINÂMICA</span>
+                <h4>Gráficos dos processos</h4>
+                <p>Clique em uma barra, fatia ou ponto para filtrar os processos. Clique novamente para limpar.</p>
+              </div>
+
+              <div class="report-chart-selectors">
+                <label>
+                  Medida
+                  <select id="reportChartMetric">
+                    <option value="count">Quantidade de Processos</option>
+                    <option value="estimated">Valor Estimado</option>
+                    <option value="awarded">Valor Adjudicado</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="report-chart-family-area">
+              <div class="report-chart-type-bar" aria-label="Tipo de gráfico">
+                <button class="report-chart-type active" type="button" data-report-chart-family="column">
+                  <span class="chart-type-icon chart-column-icon" aria-hidden="true"></span>
+                  Coluna
+                </button>
+
+                <button class="report-chart-type" type="button" data-report-chart-family="line">
+                  <span class="chart-type-icon chart-line-icon" aria-hidden="true"></span>
+                  Linha
+                </button>
+
+                <button class="report-chart-type" type="button" data-report-chart-family="pie">
+                  <span class="chart-type-icon chart-pie-icon" aria-hidden="true"></span>
+                  Pizza
+                </button>
+
+                <button class="report-chart-type" type="button" data-report-chart-family="bar">
+                  <span class="chart-type-icon chart-bar-icon" aria-hidden="true"></span>
+                  Barras
+                </button>
+
+                <button class="report-chart-type" type="button" data-report-chart-family="area">
+                  <span class="chart-type-icon chart-area-icon" aria-hidden="true"></span>
+                  Área
+                </button>
+
+                <button class="report-chart-type" type="button" data-report-chart-family="doughnut">
+                  <span class="chart-type-icon chart-doughnut-icon" aria-hidden="true"></span>
+                  Rosca
+                </button>
+              </div>
+
+              <div class="report-chart-variants" id="reportChartVariants" data-active-family="column">
+                <div class="report-chart-variant-group active" data-variant-family="column">
+                  <div class="variant-section">
+                    <span>Coluna 2D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn active" type="button" data-report-chart-model="column2d-clustered" title="Coluna 2D agrupada">
+                        <span class="variant-preview columns clustered"><i></i><i></i><i></i></span>
+                        <small>Agrupada</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="column2d-stacked" title="Coluna 2D empilhada">
+                        <span class="variant-preview columns stacked"><i></i><i></i><i></i></span>
+                        <small>Empilhada</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="column2d-100" title="Coluna 2D 100% empilhada">
+                        <span class="variant-preview columns stacked100"><i></i><i></i><i></i></span>
+                        <small>100%</small>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="variant-section">
+                    <span>Coluna 3D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="column3d-clustered">
+                        <span class="variant-preview columns clustered is3d"><i></i><i></i><i></i></span>
+                        <small>Agrupada 3D</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="column3d-stacked">
+                        <span class="variant-preview columns stacked is3d"><i></i><i></i><i></i></span>
+                        <small>Empilhada 3D</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="column3d-100">
+                        <span class="variant-preview columns stacked100 is3d"><i></i><i></i><i></i></span>
+                        <small>100% 3D</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="column3d-perspective">
+                        <span class="variant-preview columns perspective is3d"><i></i><i></i><i></i></span>
+                        <small>Perspectiva</small>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="report-chart-variant-group" data-variant-family="bar">
+                  <div class="variant-section">
+                    <span>Barra 2D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="bar2d-clustered">
+                        <span class="variant-preview bars clustered"><i></i><i></i><i></i></span>
+                        <small>Agrupada</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="bar2d-stacked">
+                        <span class="variant-preview bars stacked"><i></i><i></i><i></i></span>
+                        <small>Empilhada</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="bar2d-100">
+                        <span class="variant-preview bars stacked100"><i></i><i></i><i></i></span>
+                        <small>100%</small>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="variant-section">
+                    <span>Barra 3D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="bar3d-clustered">
+                        <span class="variant-preview bars clustered is3d"><i></i><i></i><i></i></span>
+                        <small>Agrupada 3D</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="bar3d-stacked">
+                        <span class="variant-preview bars stacked is3d"><i></i><i></i><i></i></span>
+                        <small>Empilhada 3D</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="bar3d-100">
+                        <span class="variant-preview bars stacked100 is3d"><i></i><i></i><i></i></span>
+                        <small>100% 3D</small>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="report-chart-variant-group" data-variant-family="line">
+                  <div class="variant-section">
+                    <span>Linha 2D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="line2d-basic">
+                        <span class="variant-preview line basic"></span>
+                        <small>Linha</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="line2d-smooth">
+                        <span class="variant-preview line smooth"></span>
+                        <small>Suave</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="line2d-markers">
+                        <span class="variant-preview line markers"></span>
+                        <small>Marcadores</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="line2d-stacked">
+                        <span class="variant-preview line stacked"></span>
+                        <small>Empilhada</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="line2d-100">
+                        <span class="variant-preview line stacked100"></span>
+                        <small>100%</small>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="variant-section">
+                    <span>Linha 3D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="line3d">
+                        <span class="variant-preview line basic is3d"></span>
+                        <small>Linha 3D</small>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="report-chart-variant-group" data-variant-family="area">
+                  <div class="variant-section">
+                    <span>Área 2D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="area2d-basic">
+                        <span class="variant-preview area basic"></span>
+                        <small>Área</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="area2d-stacked">
+                        <span class="variant-preview area stacked"></span>
+                        <small>Empilhada</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="area2d-100">
+                        <span class="variant-preview area stacked100"></span>
+                        <small>100%</small>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="variant-section">
+                    <span>Área 3D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="area3d-basic">
+                        <span class="variant-preview area basic is3d"></span>
+                        <small>Área 3D</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="area3d-stacked">
+                        <span class="variant-preview area stacked is3d"></span>
+                        <small>Empilhada 3D</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="area3d-100">
+                        <span class="variant-preview area stacked100 is3d"></span>
+                        <small>100% 3D</small>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="report-chart-variant-group" data-variant-family="pie">
+                  <div class="variant-section">
+                    <span>Pizza 2D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="pie2d">
+                        <span class="variant-preview pie normal"></span>
+                        <small>Pizza</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="pie2d-exploded">
+                        <span class="variant-preview pie exploded"></span>
+                        <small>Explodida</small>
+                      </button>
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="pie2d-highlight">
+                        <span class="variant-preview pie highlight"></span>
+                        <small>Destaque</small>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="variant-section">
+                    <span>Pizza 3D</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="pie3d">
+                        <span class="variant-preview pie normal is3d"></span>
+                        <small>Pizza 3D</small>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="report-chart-variant-group" data-variant-family="doughnut">
+                  <div class="variant-section">
+                    <span>Rosca</span>
+                    <div class="variant-grid">
+                      <button class="chart-variant-btn" type="button" data-report-chart-model="doughnut">
+                        <span class="variant-preview doughnut"></span>
+                        <small>Rosca</small>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="report-chart-loading multi-report-loading" id="reportChartLoading">
+              Carregando mecanismo de gráficos...
+            </div>
+
+            <div class="report-charts-grid">
+              <article class="report-chart-card" data-report-chart-card="status">
+                <div class="report-chart-card-head">
+                  <div>
+                    <span class="panel-kicker">STATUS</span>
+                    <h4>Por Status</h4>
+                    <p data-report-chart-caption="status">Quantidade de Processos</p>
+                  </div>
+                  <button
+                    class="report-fullscreen-btn"
+                    type="button"
+                    data-report-fullscreen="status"
+                    aria-label="Abrir Por Status em tela cheia"
+                    title="Tela cheia"
+                  >
+                    ⛶
+                  </button>
+                </div>
+                <div class="report-chart-card-canvas">
+                  <canvas id="reportChartStatus" aria-label="Gráfico por Status"></canvas>
+                </div>
+              </article>
+
+              <article class="report-chart-card" data-report-chart-card="orgao">
+                <div class="report-chart-card-head">
+                  <div>
+                    <span class="panel-kicker">ÓRGÃO</span>
+                    <h4>Por Órgão</h4>
+                    <p data-report-chart-caption="orgao">Quantidade de Processos</p>
+                  </div>
+                  <button
+                    class="report-fullscreen-btn"
+                    type="button"
+                    data-report-fullscreen="orgao"
+                    aria-label="Abrir Por Órgão em tela cheia"
+                    title="Tela cheia"
+                  >
+                    ⛶
+                  </button>
+                </div>
+                <div class="report-chart-card-canvas">
+                  <canvas id="reportChartOrgao" aria-label="Gráfico por Órgão"></canvas>
+                </div>
+              </article>
+
+              <article class="report-chart-card" data-report-chart-card="pregoeiro">
+                <div class="report-chart-card-head">
+                  <div>
+                    <span class="panel-kicker">PREGOEIRO(A)</span>
+                    <h4>Por Pregoeiro(a)</h4>
+                    <p data-report-chart-caption="pregoeiro">Quantidade de Processos</p>
+                  </div>
+                  <button
+                    class="report-fullscreen-btn"
+                    type="button"
+                    data-report-fullscreen="pregoeiro"
+                    aria-label="Abrir Por Pregoeiro(a) em tela cheia"
+                    title="Tela cheia"
+                  >
+                    ⛶
+                  </button>
+                </div>
+                <div class="report-chart-card-canvas">
+                  <canvas id="reportChartPregoeiro" aria-label="Gráfico por Pregoeiro"></canvas>
+                </div>
+              </article>
+
+              <article class="report-chart-card" data-report-chart-card="situacaoMinutEdital">
+                <div class="report-chart-card-head">
+                  <div>
+                    <span class="panel-kicker">SITUAÇÃO/MINUT/EDITAL</span>
+                    <h4>Por Situação/Minut/Edital</h4>
+                    <p data-report-chart-caption="situacaoMinutEdital">Quantidade de Processos</p>
+                  </div>
+                  <button
+                    class="report-fullscreen-btn"
+                    type="button"
+                    data-report-fullscreen="situacaoMinutEdital"
+                    aria-label="Abrir Por Situação/Minut/Edital em tela cheia"
+                    title="Tela cheia"
+                  >
+                    ⛶
+                  </button>
+                </div>
+                <div class="report-chart-card-canvas">
+                  <canvas id="reportChartSituacaoMinutEdital" aria-label="Gráfico por Situação/Minut/Edital"></canvas>
+                </div>
+              </article>
+
+
+              <article class="report-chart-card" data-report-chart-card="responsavelPublicacao">
+                <div class="report-chart-card-head">
+                  <div>
+                    <span class="panel-kicker">RESPONSÁVEL PELA PUBLICAÇÃO</span>
+                    <h4>Por Responsável pela Publicação</h4>
+                    <p data-report-chart-caption="responsavelPublicacao">Quantidade de Processos</p>
+                  </div>
+                  <button
+                    class="report-fullscreen-btn"
+                    type="button"
+                    data-report-fullscreen="responsavelPublicacao"
+                    aria-label="Abrir Por Responsável pela Publicação em tela cheia"
+                    title="Tela cheia"
+                  >
+                    ⛶
+                  </button>
+                </div>
+                <div class="report-chart-card-canvas">
+                  <canvas id="reportChartSituacaoMinutEdital" aria-label="Gráfico por Responsável pela Publicação"></canvas>
+                </div>
+              </article>
+
+              <article class="report-chart-card report-chart-card-wide" data-report-chart-card="modalidade">
+                <div class="report-chart-card-head">
+                  <div>
+                    <span class="panel-kicker">MODALIDADE</span>
+                    <h4>Por Modalidade</h4>
+                    <p data-report-chart-caption="modalidade">Quantidade de Processos</p>
+                  </div>
+                  <button
+                    class="report-fullscreen-btn"
+                    type="button"
+                    data-report-fullscreen="modalidade"
+                    aria-label="Abrir Por Modalidade em tela cheia"
+                    title="Tela cheia"
+                  >
+                    ⛶
+                  </button>
+                </div>
+                <div class="report-chart-card-canvas">
+                  <canvas id="reportChartModalidade" aria-label="Gráfico por Modalidade"></canvas>
+                </div>
+              </article>
+            </div>
+
+            <section class="report-selection-panel" id="reportChartSelectionPanel" hidden aria-live="polite">
+              <div class="report-selection-header">
+                <div class="report-selection-heading">
+                  <span class="panel-kicker">FILTRO INTERATIVO DOS GRÁFICOS</span>
+                  <h4 id="reportChartSelectionTitle">Processos selecionados</h4>
+                  <p id="reportChartSelectionSubtitle">Clique novamente na categoria para desfazer a seleção.</p>
+                </div>
+                <button class="secondary-btn report-selection-clear" id="reportChartSelectionClear" type="button">✕ Limpar seleção</button>
+              </div>
+              <div class="report-selection-table-wrap">
+                <table class="report-selection-table">
+                  <thead>
+                    <tr>
+                      <th>Processo</th>
+                      <th>Objeto</th>
+                      <th>Órgão</th>
+                      <th>Modalidade</th>
+                      <th>Nr. Licitação</th>
+                      <th>Setor</th>
+                      <th>Link</th>
+                    </tr>
+                  </thead>
+                  <tbody id="reportChartSelectionBody"></tbody>
+                </table>
+              </div>
+            </section>
+
+          </section>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <!-- MODAL NOVO PROCESSO -->
+  <div class="modal" id="processModal" aria-hidden="true">
+    <div class="modal-card process-modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="panel-kicker">CADASTRO</span>
+          <h3>Novo processo na DIVCON</h3>
+          <p class="section-description">Preencha os dados iniciais do processo.</p>
+        </div>
+        <button class="close-btn" id="closeModal" aria-label="Fechar">×</button>
+      </div>
+
+      <form id="processForm">
+        <div class="form-grid form-grid-3">
+          <label>
+            Nr. Processo
+            <input id="newNumeroProcesso" class="uppercase-input no-space-input" name="numero" required placeholder="Ex.: 4002.004002.00000/2026-00" />
+          </label>
+
+          <label>
+            Data Entrada SELIC
+            <input name="dataEntradaSelic" type="date" />
+          </label>
+
+          <label>
+            Órgão
+            <select id="newOrgao" name="orgao">
+              <option value="">Selecione o órgão</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Objeto
+          <textarea id="newObjeto" class="uppercase-input" name="objeto" rows="4" required placeholder="DESCREVA O OBJETO DA LICITAÇÃO."></textarea>
+        </label>
+
+        <div class="form-grid form-grid-3 tender-main-row">
+          <label>
+            Modalidade
+            <select id="newModalidade" name="modalidade">
+              <option value="">Selecione a modalidade</option>
+            </select>
+          </label>
+
+          <label>
+            Nr. Licitação
+            <input
+              id="newNumeroLicitacao"
+              name="numeroLicitacao"
+              type="text"
+              autocomplete="off"
+              placeholder="Ex.: 175/2026"
+            />
+            <small class="field-help">Informe o número disponibilizado pelo ComprasGov, quando disponível.</small>
+          </label>
+
+          <label>
+            Fonte
+            <input id="newFonte" class="uppercase-input" name="fonte" />
+          </label>
+        </div>
+
+        <div class="new-process-final-grid">
+          <label>
+            Valor Estimado
+            <input
+              id="newValorEstimado"
+              class="currency-input"
+              name="valorEstimado"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="R$ 0,00"
+            />
+          </label>
+
+          <label class="year-field">
+            Ano da Licitação
+            <input id="newAnoLicitacao" class="auto-field" name="anoLicitacao" type="number" min="2000" max="2100" placeholder="ANO" readonly />
+          </label>
+
+          <label>
+            Link <span class="optional-label">(opcional)</span>
+            <div class="link-input-group">
+              <input
+                id="newLinkProcesso"
+                name="linkProcesso"
+                type="url"
+                placeholder="https://..."
+              />
+              <button
+                type="button"
+                class="secondary-btn open-link-btn"
+                data-link-input="newLinkProcesso"
+                disabled
+              >🔗 Abrir link</button>
+            </div>
+          </label>
+        </div>
+
+        <button class="primary-btn full" type="submit">Cadastrar processo</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL HISTÓRICO DO PROCESSO -->
+  <div class="modal process-history-modal" id="processHistoryModal" aria-hidden="true">
+    <div class="modal-card process-history-modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="panel-kicker">HISTÓRICO DO PROCESSO</span>
+          <h3 id="processHistoryTitle">Histórico</h3>
+          <p class="section-description">
+            Registro cronológico das ações realizadas neste processo.
+          </p>
+        </div>
+
+        <button class="close-btn" id="closeProcessHistoryModal" type="button" aria-label="Fechar">
+          ×
+        </button>
+      </div>
+
+      <div class="process-history-summary">
+        <span>Setor atual</span>
+        <strong id="processHistorySector">DIVACP</strong>
+      </div>
+
+      <div class="process-history-list" id="processHistoryList"></div>
+    </div>
+  </div>
+
+  <!-- MODAL ENVIAR PROCESSO -->
+  <div class="modal" id="sendProcessModal" aria-hidden="true">
+    <div class="modal-card send-process-modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="panel-kicker">TRAMITAÇÃO</span>
+          <h3>Enviar processo</h3>
+          <p class="section-description">Selecione o processo e informe o setor de destino.</p>
+        </div>
+        <button class="close-btn" id="closeSendProcessModal" aria-label="Fechar">×</button>
+      </div>
+
+      <div class="send-process-copy-note">
+        <strong>Cópia DIVCON preservada</strong>
+        <span>Ao encaminhar, uma cópia permanecerá disponível na DIVCON. O encaminhamento será registrado no histórico e o setor atual passará a indicar DIPREG.</span>
+      </div>
+
+      <form id="sendProcessForm">
+        <div class="form-grid">
+          <label class="send-single-select-label" id="sendSingleProcessField">
+            Processo
+            <select id="sendProcessSelect" name="processId" required></select>
+          </label>
+          <div id="sendBulkProcessSummary" class="send-bulk-process-summary" hidden aria-live="polite"></div>
+
+          <label>
+            Setor de destino
+            <select name="destino" required>
+              <option value="">Selecione</option>
+              <option value="DIVACP">DIVACP</option>
+              <option value="DIPREG">DIPREG</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="form-grid send-process-date-time-grid">
+          <label>
+            Data de envio
+            <input type="date" name="dataEnvio" id="sendProcessDate" required />
+          </label>
+
+          <label>
+            Hora
+            <input type="time" name="horaEnvio" id="sendProcessTime" required />
+          </label>
+        </div>
+
+        <label>
+          Observação
+          <textarea name="observacao" rows="4" placeholder="Informe observações sobre o envio do processo."></textarea>
+        </label>
+
+        <button class="primary-btn full" type="submit">Confirmar envio</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL NOVO COMPROMISSO -->
+  <div class="modal" id="agendaModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="panel-kicker">AGENDA</span>
+          <h3>Novo compromisso</h3>
+        </div>
+        <button class="close-btn" id="closeAgendaModal" aria-label="Fechar">×</button>
+      </div>
+
+      <form id="agendaForm">
+        <label>
+          Título
+          <input name="titulo" required placeholder="Ex.: Conferência de prazos" />
+        </label>
+
+        <div class="form-grid">
+          <label>
+            Data
+            <input name="data" type="date" required />
+          </label>
+
+          <label>
+            Horário
+            <input name="hora" type="time" required />
+          </label>
+        </div>
+
+        <label>
+          Descrição
+          <textarea name="descricao" rows="4" placeholder="Descreva o compromisso."></textarea>
+        </label>
+
+        <button class="primary-btn full" type="submit">Salvar compromisso</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL CONFIGURAÇÕES -->
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal-card profile-settings-card system-settings-card">
+      <div class="modal-header">
+        <div>
+          <span class="panel-kicker">CONFIGURAÇÕES</span>
+          <h3>Configurações do sistema</h3>
+          <p class="section-description">Gerencie o perfil e as listas padronizadas utilizadas nos cadastros.</p>
+        </div>
+        <button class="close-btn" id="closeSettingsModal" aria-label="Fechar">×</button>
+      </div>
+
+      <form id="profileSettingsForm">
+        <div class="settings-workspace">
+          <nav class="settings-tab-nav" aria-label="Seções das configurações">
+            <button class="settings-tab-button active" type="button" data-settings-tab="profile">
+              <span class="settings-tab-icon">◉</span>
+              <span>Perfil</span>
+            </button>
+
+            <button class="settings-tab-button" type="button" data-settings-tab="standards">
+              <span class="settings-tab-icon">✓</span>
+              <span>PADRONIZAÇÃO</span>
+            </button>
+            <button class="settings-tab-button" type="button" data-settings-tab="notifications">
+              <span class="settings-tab-icon" aria-hidden="true">🔔</span>
+              <span>NOTIFICAÇÕES</span>
+            </button>
+          </nav>
+
+          <div class="settings-panel-area">
+            <section class="settings-tab-panel active" data-settings-panel="profile">
+              <div class="settings-section settings-profile-main">
+                <div class="settings-section-head">
+                  <div>
+                    <span class="panel-kicker">PERFIL</span>
+                    <h4>Perfil do usuário</h4>
+                    <p>Personalize nome, imagem e todas as cores do sistema. As preferências ficam salvas neste navegador.</p>
+                  </div>
+                </div>
+
+                <div class="profile-customization-grid">
+                  <div class="profile-avatar-editor">
+                    <div class="profile-avatar-preview-wrap">
+                      <img id="settingsProfilePreview" src="perfil-static.png" alt="Prévia do perfil" />
+                    </div>
+
+                    <div class="profile-avatar-actions">
+                      <input id="profileAvatarInput" type="file" accept="image/*" hidden />
+                      <button class="secondary-btn settings-compact-btn" id="chooseProfileAvatar" type="button">Escolher imagem</button>
+                      <button class="secondary-btn settings-compact-btn" id="resetProfileAvatar" type="button">Usar padrão</button>
+                    </div>
+                    <small>JPG, PNG ou WEBP. A imagem é reduzida antes de ser salva.</small>
+                  </div>
+
+                  <div class="profile-info-editor">
+                    <label>
+                      Nome de exibição
+                      <input id="profileNameInput" name="profileName" maxlength="40" placeholder="DIVCON" />
+                    </label>
+
+                    <label class="profile-font-field">
+                      Fonte do sistema
+                      <select id="profileFontSelect" name="profileFont">
+                        <option value="Inter">Inter</option>
+                        <option value="Aptos">Aptos</option>
+                        <option value="Calibri">Calibri</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Cambria">Cambria</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Garamond">Garamond</option>
+                        <option value="Century Gothic">Century Gothic</option>
+                        <option value="Segoe UI">Segoe UI</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Tahoma">Tahoma</option>
+                        <option value="Trebuchet MS">Trebuchet MS</option>
+                        <option value="Courier New">Courier New</option>
+                      </select>
+                      <small>A fonte escolhida será aplicada em todo o sistema e ficará salva neste navegador.</small>
+                    </label>
+
+                    <label class="profile-font-size-field">
+                      <span class="profile-setting-label-row">
+                        <span>Tamanho da fonte do sistema</span>
+                        <strong id="profileFontSizeValue">PADRÃO DIVACP</strong>
+                      </span>
+                      <input id="profileFontSizeRange" name="profileFontSize" type="range" min="10" max="18" step="1" value="12" />
+                      <small>12 px corresponde ao padrão visual da DIVACP. Altere somente se desejar aumentar ou reduzir as fontes da DIVCON.</small>
+                    </label>
+
+                    <div class="profile-color-grid">
+                      <label class="theme-color-field">
+                        <span>Cor principal</span>
+                        <input id="themePrimaryColor" type="color" value="#1f6feb" />
+                      </label>
+
+                      <label class="theme-color-field">
+                        <span>Menu lateral</span>
+                        <input id="themeSidebarColor" type="color" value="#132941" />
+                      </label>
+
+                      <label class="theme-color-field">
+                        <span>Destaque</span>
+                        <input id="themeAccentColor" type="color" value="#087f79" />
+                      </label>
+
+                      <label class="theme-color-field">
+                        <span>Fundo do sistema</span>
+                        <input id="themeBackgroundColor" type="color" value="#f3f6fa" />
+                      </label>
+
+                      <label class="theme-color-field theme-color-field-new">
+                        <span>Botões</span>
+                        <input id="themeButtonColor" type="color" value="#1f6feb" />
+                      </label>
+
+                      <label class="theme-color-field theme-color-field-new">
+                        <span>Fontes</span>
+                        <input id="themeTextColor" type="color" value="#172033" />
+                      </label>
+
+                      <label class="theme-color-field theme-color-field-new">
+                        <span>Filtros e cards</span>
+                        <input id="themeFilterColor" type="color" value="#ffffff" />
+                      </label>
+
+                      <label class="theme-color-field theme-color-field-new">
+                        <span>Tabela de processos</span>
+                        <input id="themeTableColor" type="color" value="#ffffff" />
+                      </label>
+                    </div>
+
+                    <button class="secondary-btn settings-compact-btn reset-theme-btn" id="resetThemeColors" type="button">
+                      Restaurar cores padrão
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="settings-tab-panel" data-settings-panel="standards">
+              <div class="settings-standard-stack">
+                <section class="settings-section" data-standard-section="divconSituacoes">
+                  <div class="settings-section-head"><div>
+                    <span class="panel-kicker">PADRONIZAÇÃO DIVCON</span>
+                    <h4>SITUAÇÃO/MINUT/EDITAL</h4>
+                    <p>Cadastre os nomes das pessoas responsáveis por SITUAÇÃO/MINUT/EDITAL. A lista inicia vazia e será mantida em ordem alfabética e sempre em maiúsculo.</p>
+                  </div>
+                    <button class="settings-edit-standard-btn" type="button" data-standard-edit="divconSituacoes" aria-pressed="false" title="Editar padronização">
+                      <span class="settings-edit-icon" aria-hidden="true">✎</span>
+                      <span class="settings-edit-label">Editar</span>
+                    </button>
+                  </div>
+                  <div class="settings-add-row standard-edit-row" data-standard-edit-row="divconSituacoes" hidden>
+                    <input class="settings-uppercase-input" id="settingsSituacaoMinutEditalInput" type="text" placeholder="EX.: NOME DA PESSOA" />
+                    <button class="secondary-btn settings-compact-btn" id="settingsAddSituacaoMinutEdital" type="button">+ Adicionar</button>
+                  </div>
+                  <div class="settings-tag-list" id="settingsSituacaoMinutEditalList"></div>
+                </section>
+
+                <section class="settings-section" data-standard-section="divconResponsaveisPublicacao">
+                  <div class="settings-section-head"><div>
+                    <span class="panel-kicker">PADRONIZAÇÃO DIVCON</span>
+                    <h4>RESPONSÁVEL PELA PUBLICAÇÃO</h4>
+                    <p>Cadastre os responsáveis que poderão ser selecionados nos Dados da DIVCON.</p>
+                  </div>
+                    <button class="settings-edit-standard-btn" type="button" data-standard-edit="divconResponsaveisPublicacao" aria-pressed="false" title="Editar padronização">
+                      <span class="settings-edit-icon" aria-hidden="true">✎</span>
+                      <span class="settings-edit-label">Editar</span>
+                    </button>
+                  </div>
+                  <div class="settings-add-row standard-edit-row" data-standard-edit-row="divconResponsaveisPublicacao" hidden>
+                    <input class="settings-uppercase-input" id="settingsResponsavelPublicacaoInput" type="text" placeholder="EX.: JOELSON" />
+                    <button class="secondary-btn settings-compact-btn" id="settingsAddResponsavelPublicacao" type="button">+ Adicionar</button>
+                  </div>
+                  <div class="settings-tag-list" id="settingsResponsavelPublicacaoList"></div>
+                </section>
+
+                <section class="settings-section" data-standard-section="divconPregoeiros">
+                  <div class="settings-section-head"><div>
+                    <span class="panel-kicker">PADRONIZAÇÃO DIVCON</span>
+                    <h4>PREGOEIRO</h4>
+                    <p>Cadastre os pregoeiros para seleção nos processos da DIVCON.</p>
+                  </div>
+                    <button class="settings-edit-standard-btn" type="button" data-standard-edit="divconPregoeiros" aria-pressed="false" title="Editar padronização">
+                      <span class="settings-edit-icon" aria-hidden="true">✎</span>
+                      <span class="settings-edit-label">Editar</span>
+                    </button>
+                  </div>
+                  <div class="settings-add-row standard-edit-row" data-standard-edit-row="divconPregoeiros" hidden>
+                    <input class="settings-uppercase-input" id="settingsPregoeiroInput" type="text" placeholder="EX.: NOME DO PREGOEIRO" />
+                    <button class="secondary-btn settings-compact-btn" id="settingsAddPregoeiro" type="button">+ Adicionar</button>
+                  </div>
+                  <div class="settings-tag-list" id="settingsPregoeiroList"></div>
+                </section>
+
+                <section class="settings-section" data-standard-section="divconStatuses">
+                  <div class="settings-section-head"><div>
+                    <span class="panel-kicker">PADRONIZAÇÃO DIVCON</span>
+                    <h4>STATUS</h4>
+                    <p>Cadastre os status próprios da DIVCON. Todos serão mantidos em maiúsculo e ordem alfabética.</p>
+                  </div>
+                    <button class="settings-edit-standard-btn" type="button" data-standard-edit="divconStatuses" aria-pressed="false" title="Editar padronização">
+                      <span class="settings-edit-icon" aria-hidden="true">✎</span>
+                      <span class="settings-edit-label">Editar</span>
+                    </button>
+                  </div>
+                  <div class="settings-add-row standard-edit-row" data-standard-edit-row="divconStatuses" hidden>
+                    <input class="settings-uppercase-input" id="settingsDivconStatusInput" type="text" placeholder="EX.: EM ANDAMENTO" />
+                    <button class="secondary-btn settings-compact-btn" id="settingsAddDivconStatus" type="button">+ Adicionar</button>
+                  </div>
+                  <div class="settings-tag-list" id="settingsDivconStatusList"></div>
+                </section>
+              </div>
+            </section>
+
+            <section class="settings-tab-panel" data-settings-panel="notifications">
+              <div class="settings-standard-stack divcon-notifications-settings">
+                <section class="settings-section">
+                  <div class="settings-section-head">
+                    <div>
+                      <span class="panel-kicker">NOTIFICAÇÕES DIVCON</span>
+                      <h4>Som de novos processos</h4>
+                      <p>Habilitado por padrão. O áudio enviado será utilizado nos novos encaminhamentos, após o navegador liberar a reprodução.</p>
+                    </div>
+                  </div>
+                  <div class="divcon-notification-config-row">
+                    <label class="divcon-notification-switch-label" for="divconSoundToggle">
+                      <input type="checkbox" id="divconSoundToggle" checked />
+                      <span>Ativar som de notificação</span>
+                    </label>
+                    <button class="secondary-btn settings-compact-btn" id="divconAudioTestButton" type="button">Ouvir som</button>
+                  </div>
+                  <small class="divcon-notification-state" id="divconAudioStatus" aria-live="polite">Som habilitado. O navegador poderá exigir um clique na DIVCON para reproduzir.</small>
+                </section>
+                <section class="settings-section">
+                  <div class="settings-section-head">
+                    <div>
+                      <span class="panel-kicker">NOTIFICAÇÕES DIVCON</span>
+                      <h4>Avisos do Windows (segundo plano)</h4>
+                      <p>Habilitados por padrão. O Windows poderá mostrar um aviso quando a DIVCON estiver aberta em outra aba ou minimizada.</p>
+                    </div>
+                  </div>
+                  <div class="divcon-notification-config-row">
+                    <label class="divcon-notification-switch-label" for="divconWindowsToggle">
+                      <input type="checkbox" id="divconWindowsToggle" checked />
+                      <span>Ativar avisos do Windows</span>
+                    </label>
+                    <button class="secondary-btn settings-compact-btn" id="divconWindowsNoticeButton" type="button">Permitir / testar</button>
+                  </div>
+                  <small class="divcon-notification-state" id="divconWindowsNoticeStatus" aria-live="polite">Verificando permissão do navegador…</small>
+                </section>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="settings-footer">
+          <button class="primary-btn settings-save-btn" type="submit">Salvar configurações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- TELA INDEPENDENTE DE FERIADOS -->
+  <div class="holiday-manager-screen" id="holidayManagerScreen" aria-hidden="true">
+    <div class="holiday-manager-shell">
+      <header class="holiday-manager-header">
+        <div>
+          <span class="panel-kicker">AGENDA DIVCON</span>
+          <h2>Cadastro e Consulta de Feriados</h2>
+          <p>Importe o calendário oficial e consulte feriados e pontos facultativos em uma área separada.</p>
+        </div>
+
+        <button class="holiday-manager-exit" id="closeHolidayManager" type="button">
+          Sair
+        </button>
+      </header>
+
+      <main class="holiday-manager-content">
+        <section class="holiday-manager-card holiday-import-card">
+          <div class="holiday-manager-card-head">
+            <div>
+              <span class="panel-kicker">CADASTRO</span>
+              <h3>Importar calendário oficial</h3>
+              <p>O calendário oficial do Acre de 2026 já está carregado. Para os próximos anos, importe o Diário Oficial em PDF.</p>
+            </div>
+
+            <div class="holiday-manager-card-actions">
+              <input id="holidayPdfInput" type="file" accept="application/pdf,.pdf" hidden />
+
+              <button class="primary-btn compact-btn" id="holidayPdfButton" type="button">
+                Importar Diário Oficial
+              </button>
+
+              <button class="secondary-btn compact-btn" id="clearStateHolidays" type="button">
+                Limpar importados
+              </button>
+            </div>
+          </div>
+
+          <div class="holiday-import-status" id="holidayImportStatus">
+            Calendário oficial do Acre de 2026 carregado. Nenhum calendário adicional importado.
+          </div>
+        </section>
+
+        <section class="holiday-manager-card holiday-consult-panel">
+          <div class="holiday-consult-head">
+            <div>
+              <span class="panel-kicker">CONSULTA</span>
+              <h3>Consultar feriados</h3>
+              <p>Filtre o calendário por ano, categoria ou denominação.</p>
+            </div>
+
+            <span class="holiday-consult-count" id="holidayConsultCount">0 registros</span>
+          </div>
+
+          <div class="holiday-consult-filters">
+            <label>
+              Ano
+              <select id="holidayYearFilter"></select>
+            </label>
+
+            <label>
+              Categoria
+              <select id="holidayCategoryFilter">
+                <option value="all">Todas</option>
+                <option value="national">Feriado Nacional</option>
+                <option value="state">Feriado Estadual</option>
+                <option value="optional">Ponto Facultativo</option>
+              </select>
+            </label>
+
+            <label class="holiday-search-field">
+              Pesquisar
+              <input id="holidaySearchInput" type="search" placeholder="Ex.: Carnaval, Tratado de Petrópolis..." />
+            </label>
+          </div>
+
+          <div class="holiday-consult-table-wrap">
+            <table class="holiday-consult-table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Denominação</th>
+                  <th>Categoria</th>
+                  <th>Fonte / Observação</th>
+                </tr>
+              </thead>
+              <tbody id="holidayConsultBody"></tbody>
+            </table>
+          </div>
+
+          <div class="holiday-consult-empty" id="holidayConsultEmpty" hidden>
+            Nenhum feriado encontrado para os filtros selecionados.
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <audio id="divconNotificationAudio" preload="auto" src="notificacao-divcon.mp3"></audio>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
+
+  <script src="selic-integracao-comissoes.js"></script>
+  <script src="selic-pregoeiros-nomes.js"></script>
+  <script src="sead-sync.js"></script>
+  <script src="selic-auth.js"></script>
+
+
+  <script src="selic-integracao-divacp-divcon.js"></script>
+  <script src="divcon-script.js"></script>
+</body>
+</html>

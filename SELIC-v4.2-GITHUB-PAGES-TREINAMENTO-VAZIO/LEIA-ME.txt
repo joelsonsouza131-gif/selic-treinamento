@@ -1,0 +1,13 @@
+SEAD INTEGRADO v3.0 — DIVACP + DIVCON + CEC
+
+1. Extraia todos os arquivos para a mesma pasta.
+2. Execute INICIAR-SISTEMA-3-SETORES.bat.
+3. Use as três páginas pelo endereço http://localhost:8765.
+
+Bases:
+- DIVACP: v2.8 (consulta CEC/CPC/DIPREG)
+- DIVCON: base mais recente com envio em lote/retorno
+- CEC: v1.0 integrada, com campos Data Entrada, Data Saída, Status, Pregoeiro, Data Inicial, Data Final, Data de Abertura, Hora, Itens/Lote, Valor Estimado, Valor Adjudicado, Nº Planilha Comparativa SEI e Andamento.
+
+
+Versão v3.2: DIVACP exibe Dados da DIVCON para rota DIVCON e um único bloco Dados da CEC, CPC e DIPREG para a outra rota. Status RECURSO habilita os prazos Fim dos Recursos, Fim das Contrarrazões e Fim da Decisão.

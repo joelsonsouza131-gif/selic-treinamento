@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1830">
+  <title>SELIC | Portal de Acesso</title>
+  <link rel="stylesheet" href="login-style.css">
+  <script src="login-script.js" defer></script>
+  <script src="jszip.min.js" defer></script>
+  <script src="selic-admin-importar.js" defer></script>
+  <script src="selic-treinamento-inicial.js"></script>
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <section class="login-view auth-stage" id="loginView">
+      <div class="auth-frame" id="authFrame">
+        <div class="auth-form auth-form-login">
+          <div class="login-card">
+            <div class="login-heading">
+              <div class="lock-icon">⌁</div>
+              <span>ACESSO À PLATAFORMA</span>
+              <h2>Bem-vindo de volta<span>.</span></h2>
+              <p>Informe seu usuário, sua senha e o setor autorizado para entrar.</p>
+            </div>
+            <form id="loginForm" novalidate>
+              <label class="field"><span>Usuário</span><input id="loginUsername" autocomplete="username" placeholder="Ex.: joelson.amorim" required></label>
+              <label class="field"><span class="field-row">Senha <button type="button" class="link-btn" id="openReset">Esqueceu a senha?</button></span><div class="password-input"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Digite sua senha" required><button type="button" id="toggleLoginPassword" aria-label="Mostrar senha">◉</button></div></label>
+              <label class="field" for="loginSector"><span>Setor de acesso</span>
+                <select id="loginSector" name="setor" autocomplete="organization" required aria-required="true">
+                  <option value="">Selecione o setor cadastrado</option>
+                  <option value="DIVACP">DIVACP</option>
+                  <option value="DIVCON">DIVCON</option>
+                  <option value="CEC">CEC</option>
+                  <option value="CPC">CPC</option>
+                  <option value="DIPREG">DIPREG</option>
+                  <option value="ADMINISTRADOR">Administrador</option>
+                </select>
+                <small class="login-sector-help">Selecione um setor autorizado no seu cadastro.</small>
+              </label>
+              <label class="remember"><input id="rememberUser" type="checkbox" checked><span>Lembrar meu usuário neste dispositivo</span></label>
+              <div class="button-stack">
+                <button class="ui-btn primary" type="submit">Entrar no sistema <span>→</span></button>
+                <button class="ui-btn secondary" type="button" id="openRegister">Solicitar cadastro <span>＋</span></button>
+              </div>
+              <div class="feedback" id="loginFeedback" hidden></div>
+            </form>
+            <div class="demo-access"><strong>Administração de acessos</strong><span>Os pregoeiros pré-cadastrados precisam ser aprovados antes do primeiro acesso.</span></div>
+          </div>
+        </div>
+
+        <div class="auth-form auth-form-register">
+          <div class="register-card">
+            <div class="login-heading">
+              <div class="lock-icon">＋</div>
+              <span>SOLICITAÇÃO DE CADASTRO</span>
+              <h2>Solicite seu acesso<span>.</span></h2>
+              <p>O acesso só será liberado depois da aprovação de um administrador.</p>
+            </div>
+            <div class="hint-box"><strong>Dica para o usuário</strong><span>Você pode usar o mesmo padrão do CI/CIAC. Exemplo: <b>joelson.amorim</b>.</span></div>
+            <form id="registerForm" novalidate>
+              <div class="form-grid auth-register-grid">
+                <label class="field span-2"><span>Nome completo</span><input id="regName" required placeholder="Digite seu nome completo"></label>
+                <label class="field"><span>Usuário desejado</span><input id="regUsername" required placeholder="Ex.: joelson.amorim"></label>
+                <label class="field"><span>Setor solicitado</span><select id="regSector" required><option value="">Selecione</option><option>DIVACP</option><option>DIVCON</option><option>CEC</option><option>CPC</option><option>DIPREG</option></select></label>
+                <label class="field"><span>Senha desejada</span><input id="regPassword" type="password" required placeholder="Mínimo 6 caracteres"></label>
+                <label class="field"><span>Confirmar senha</span><input id="regPassword2" type="password" required placeholder="Repita a senha"></label>
+              </div>
+              <div class="modal-note">Após a aprovação, o administrador emitirá uma <b>senha provisória</b>. No primeiro acesso, você deverá cadastrar uma nova senha.</div>
+              <div class="modal-feedback" id="registerFeedback" hidden></div>
+              <div class="button-stack">
+                <button class="ui-btn primary" type="submit">Enviar solicitação <span>→</span></button>
+                <button class="ui-btn secondary" type="button" id="backToLogin">Voltar ao login <span>←</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <aside class="auth-switch-panel" aria-hidden="true">
+          <div class="auth-switch-content auth-switch-login">
+            <div class="wordmark"><div class="brand-mark">S</div><div><strong>SELIC<span>.</span></strong><small>GESTÃO INTEGRADA</small></div></div>
+            <span class="eyebrow">PORTAL INSTITUCIONAL</span>
+            <h1>Olá, bem-vindo<span>.</span></h1>
+            <p>Acesse os setores autorizados com um único usuário.</p>
+            <button class="switch-ghost-btn" type="button" id="panelOpenRegister">Solicitar cadastro</button>
+          </div>
+          <div class="auth-switch-content auth-switch-register">
+            <div class="wordmark"><div class="brand-mark">S</div><div><strong>SELIC<span>.</span></strong><small>GESTÃO INTEGRADA</small></div></div>
+            <span class="eyebrow">JÁ POSSUI ACESSO?</span>
+            <h1>Bem-vindo de volta<span>.</span></h1>
+            <p>Retorne ao login e entre com seu perfil aprovado.</p>
+            <button class="switch-ghost-btn" type="button" id="panelBackToLogin">Entrar</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="workspace" id="workspace" hidden>
+      <aside class="sidebar">
+        <div class="side-brand"><div class="brand-mark small">S</div><div><strong>SELIC</strong><span id="activeProfileLabel">ADMINISTRADOR</span></div></div>
+        <nav id="adminNav">
+          <button class="nav-btn active" data-screen="overview">⌂ <span>Visão geral</span></button>
+          <button class="nav-btn" data-screen="requests">▣ <span>Solicitações</span><i class="badge" id="requestBadge">0</i></button>
+          <button class="nav-btn" data-screen="passwords">⌘ <span>Redefinições de senha</span><i class="badge" id="passwordBadge">0</i></button>
+          <button class="nav-btn" data-screen="users">♙ <span>Usuários</span></button>
+          <button class="nav-btn" data-screen="sectors">▦ <span>Setores</span></button>
+          <button class="nav-btn" data-screen="records">◫ <span>Cadastros</span></button>
+          <button class="nav-btn" data-screen="importacao">⇧ <span>Importar planilhas</span></button>
+        </nav>
+        <div class="side-footer">
+          <button class="profile-switch-btn" id="switchProfileBtn">⇄ <span>Trocar perfil</span></button>
+          <button class="profile-card" id="profileMenuBtn"><span class="avatar" id="sidebarInitials">AD</span><span><strong id="sidebarUserName">Administrador</strong><small id="sidebarProfileName">Administrador</small></span><b>⋮</b></button>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar"><div><span class="crumb">SELIC / Administração</span><h2 id="screenTitle">Visão geral</h2></div><div class="top-actions"><button class="icon-btn" id="topSwitchProfile" title="Trocar perfil">⇄</button><button class="user-pill" id="topUserPill"><span class="avatar" id="topInitials">AD</span><span id="topUserName">Administrador</span></button></div></header>
+        <div class="content-area">
+          <section class="screen active" id="screen-overview">
+            <div class="hero-admin"><div><span>ADMINISTRAÇÃO DE ACESSOS</span><h3>Controle central da plataforma</h3><p>Aprove usuários, acompanhe solicitações e gerencie permissões sem excluir registros históricos.</p></div><div class="hero-security">✓ <span><strong>Governança ativa</strong><small>Inativação reversível e trilha de decisões</small></span></div></div>
+            <div class="stats-grid"><article><span>Solicitações pendentes</span><strong id="statRequests">0</strong><small>Aguardando decisão</small></article><article><span>Redefinições pendentes</span><strong id="statPasswords">0</strong><small>Solicitações de senha</small></article><article><span>Usuários ativos</span><strong id="statUsers">0</strong><small>Perfis aprovados</small></article><article><span>Setores ativos</span><strong id="statSectors">5</strong><small>Unidades disponíveis</small></article></div>
+            <div class="panel-grid"><article class="panel"><div class="panel-head"><div><span>ATENÇÃO</span><h4>Solicitações recentes</h4></div><button class="text-action" data-open-screen="requests">Ver todas →</button></div><div id="recentRequests"></div></article><article class="panel"><div class="panel-head"><div><span>ACESSOS</span><h4>Perfis do administrador</h4></div></div><div class="profile-list" id="adminProfiles"></div></article></div>
+          </section>
+
+          <section class="screen" id="screen-requests"><div class="section-head"><div><span>GESTÃO DE ACESSOS</span><h3>Solicitações de cadastro</h3><p>Aprove ou reprove solicitações de novos usuários.</p></div></div><div class="tabs"><button class="tab active" data-request-tab="pending">Em andamento <span id="pendingTabCount">0</span></button><button class="tab" data-request-tab="done">Concluídas <span id="doneTabCount">0</span></button></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Nome</th><th>Usuário</th><th>Setor solicitado</th><th>Data</th><th>Situação</th><th>Ações</th></tr></thead><tbody id="requestsTable"></tbody></table></div></div></section>
+
+          <section class="screen" id="screen-passwords"><div class="section-head"><div><span>SEGURANÇA</span><h3>Redefinições de senha</h3><p>Analise solicitações de usuários que esqueceram a senha.</p></div></div><div class="tabs"><button class="tab active" data-password-tab="pending">Em andamento <span id="pendingPasswordCount">0</span></button><button class="tab" data-password-tab="done">Concluídas <span id="donePasswordCount">0</span></button></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Usuário</th><th>Nome</th><th>Solicitado em</th><th>Situação</th><th>Ações</th></tr></thead><tbody id="passwordRequestsTable"></tbody></table></div></div></section>
+
+          <section class="screen" id="screen-users"><div class="section-head inline"><div><span>PERFIS</span><h3>Usuários</h3><p>Gerencie perfis, setores e situação de acesso.</p></div><div class="admin-user-tools"><button class="ui-btn secondary compact" type="button" id="resetSelectedUsers" disabled>Redefinir selecionados (<span id="selectedUserCount">0</span>)</button><button class="ui-btn secondary compact" type="button" id="resetAllPregoeiros">Redefinir senhas dos pregoeiros</button></div></div><div class="panel"><div class="table-wrap"><table><thead><tr><th><input id="selectAllUsers" type="checkbox" aria-label="Selecionar todos os usuários disponíveis para redefinição"></th><th>Usuário</th><th>Nome</th><th>Perfis</th><th>Situação</th><th>Último acesso</th><th>Ações</th></tr></thead><tbody id="usersTable"></tbody></table></div></div></section>
+
+          <section class="screen" id="screen-importacao">
+            <div class="section-head"><div><span>ADMINISTRAÇÃO DE DADOS</span><h3>Importar planilhas</h3><p>Selecione o setor de destino. Para a DIPREG, escolha obrigatoriamente qual pregoeiro receberá os processos.</p></div></div>
+            <div class="panel selic-import-panel">
+              <div class="selic-import-grid">
+                <label class="field"><span>1. Arquivo Excel ou CSV</span><input id="selicImportFile" type="file" accept=".xlsx,.csv" /></label>
+                <label class="field"><span>2. Setor de destino</span><select id="selicImportSector"><option value="">Selecione o setor</option><option>DIVACP</option><option>DIVCON</option><option>DIPREG</option><option>CEC</option><option>CPC</option></select></label>
+                <label class="field" id="selicImportPregoeiroWrap" hidden><span>3. Pregoeiro responsável (DIPREG)</span><select id="selicImportPregoeiro"><option value="">Selecione o pregoeiro</option></select></label>
+              </div>
+              <p class="selic-import-hint">Arquivos .xlsx e .csv. Não cria processos duplicados: a comparação é feita pelo número do processo. Os dados preenchidos manualmente serão preservados; na DIPREG, o responsável selecionado será vinculado aos processos importados.</p>
+              <div class="selic-import-actions"><button type="button" class="ui-btn secondary compact" id="selicImportBackup">Baixar backup do setor</button><button type="button" class="ui-btn primary compact" id="selicImportReview">Conferir planilha →</button></div>
+              <div id="selicImportStatus" class="selic-import-status" role="status" aria-live="polite"></div>
+              <div id="selicImportPreview" hidden><div id="selicImportSummary"></div><div class="table-wrap"><table><thead><tr><th>Processo</th><th>Modalidade</th><th>Órgão</th><th>Responsável</th><th>Conferência</th></tr></thead><tbody id="selicImportTable"></tbody></table></div><div class="selic-import-actions"><button type="button" class="ui-btn secondary compact" id="selicImportCancel">Cancelar</button><button type="button" class="ui-btn primary compact" id="selicImportApply">Confirmar importação</button></div></div>
+            </div>
+            <p class="selic-import-footnote">Nesta versão local, a importação fica armazenada neste navegador. Para que outros computadores recebam os dados automaticamente, será necessária uma base compartilhada no servidor.</p>
+          </section>
+
+          <section class="screen" id="screen-sectors"><div class="section-head"><div><span>ESTRUTURA</span><h3>Setores</h3><p>O administrador possui acesso total a todos os setores ativos.</p></div></div><div class="sector-cards" id="sectorCards"></div></section>
+
+          <section class="screen" id="screen-records"><div class="section-head"><div><span>GOVERNANÇA</span><h3>Cadastros e registros</h3><p>Nenhum cadastro é excluído definitivamente. A inativação pode ser revertida sem apagar o histórico.</p></div></div><div class="tabs"><button class="tab active" data-record-tab="statuses">Status</button><button class="tab" data-record-tab="processes">Processos</button></div><div class="panel" id="recordsPanel"></div></section>
+
+          <section class="screen" id="screen-sector-placeholder"><div class="sector-access-card"><span class="sector-access-badge">PERFIL ATIVO</span><h3 id="sectorAccessTitle">DIPREG</h3><p>Este é um protótipo de acesso. Na integração final, este perfil abrirá diretamente o sistema do setor selecionado.</p><div class="placeholder-actions"><button class="ui-btn primary compact" id="returnAdminBtn">Trocar perfil</button><button class="ui-btn secondary compact" id="logoutSectorBtn">Sair</button></div></div></section>
+        </div>
+      </main>
+    </section>
+  </div>
+
+
+  <dialog class="modal" id="resetDialog"><form class="modal-card" id="resetForm"><button class="modal-x" type="button" data-close="resetDialog">×</button><div class="modal-icon">↻</div><span class="modal-eyebrow">REDEFINIÇÃO DE SENHA</span><h3>Solicitar nova senha</h3><p>Informe seu usuário. Após a aprovação, a Administração emitirá uma senha provisória no padrão SELIC + 4 dígitos, que deverá ser substituída no próximo acesso.</p><label class="field"><span>Usuário</span><input id="resetUsername" required></label><div class="modal-feedback" id="resetFeedback" hidden></div><div class="modal-actions"><button class="ui-btn secondary" type="button" data-close="resetDialog">Cancelar</button><button class="ui-btn primary" type="submit">Solicitar redefinição</button></div></form></dialog>
+
+  <dialog class="modal" id="firstPasswordDialog"><form class="modal-card" id="firstPasswordForm"><div class="modal-icon">⌁</div><span class="modal-eyebrow">PRIMEIRO ACESSO</span><h3>Defina sua senha pessoal</h3><p>Esta é sua primeira entrada ou sua senha foi redefinida pela Administração. Para continuar, cadastre uma nova senha.</p><label class="field"><span>Nova senha</span><input id="firstPassword" type="password" required></label><label class="field"><span>Confirmar nova senha</span><input id="firstPassword2" type="password" required></label><div class="modal-feedback" id="firstPasswordFeedback" hidden></div><div class="modal-actions single"><button class="ui-btn primary" type="submit">Salvar nova senha</button></div></form></dialog>
+
+  <dialog class="modal" id="profileDialog"><div class="modal-card"><button class="modal-x" type="button" data-close="profileDialog">×</button><div class="modal-icon">⇄</div><span class="modal-eyebrow">TROCAR PERFIL</span><h3>Escolha onde deseja entrar</h3><p>Você só verá os perfis aprovados para seu usuário.</p><div class="profile-picker" id="profilePicker"></div></div></dialog>
+
+  <dialog class="modal wide" id="userEditDialog"><form class="modal-card" id="userEditForm"><button class="modal-x" type="button" data-close="userEditDialog">×</button><div class="modal-icon">♙</div><span class="modal-eyebrow">PERMISSÕES</span><h3>Editar perfis do usuário</h3><p id="userEditDescription"></p><div class="checkbox-grid" id="userProfileChecks"></div><div class="modal-actions"><button class="ui-btn secondary" type="button" data-close="userEditDialog">Cancelar</button><button class="ui-btn primary" type="submit">Salvar perfis</button></div></form></dialog>
+
+  <dialog class="modal" id="credentialDialog"><div class="modal-card"><button class="modal-x" type="button" data-close="credentialDialog">×</button><div class="modal-icon">✓</div><span class="modal-eyebrow">ACESSO APROVADO</span><h3>Senha provisória gerada</h3><p>Senha no padrão SELIC + 4 dígitos. Envie ao usuário: ele deverá cadastrar uma nova senha pessoal no primeiro acesso ou após redefinição.</p><strong id="credentialUsername" style="display:block;margin-bottom:8px"></strong><div class="temporary-password" id="temporaryPassword">—</div><div class="modal-actions"><button class="ui-btn secondary" id="copyTempPassword" type="button">Copiar senha</button><button class="ui-btn primary" id="closeCredentialDialog" type="button">Concluir</button></div></div></dialog>
+
+  <dialog class="modal wide" id="adminResetCredentialsDialog"><div class="modal-card">
+    <div class="modal-icon">⌁</div><span class="modal-eyebrow">REDEFINIÇÃO ADMINISTRATIVA</span>
+    <h3>Senhas provisórias geradas</h3><p>Os usuários devem trocar estas senhas no próximo acesso. Copie as credenciais agora e envie individualmente por canal seguro; esta listagem não será mantida ao fechar.</p>
+    <div class="table-wrap" style="max-height:310px;overflow:auto"><table><thead><tr><th>Usuário</th><th>Senha provisória</th></tr></thead><tbody id="resetCredentialsList"></tbody></table></div>
+    <div class="modal-actions"><button class="ui-btn secondary" type="button" id="copyResetCredentials">Copiar lista</button><button class="ui-btn primary" type="button" id="closeResetCredentials">Concluir</button></div>
+  </div></dialog>
+  <script>document.documentElement.classList.add('js');</script>
+</body>
+</html>

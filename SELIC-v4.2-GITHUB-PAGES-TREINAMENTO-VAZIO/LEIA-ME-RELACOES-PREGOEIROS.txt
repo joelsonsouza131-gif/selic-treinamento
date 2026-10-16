@@ -1,0 +1,46 @@
+SELIC v4.2 - RELACOES DE PROCESSOS POR PREGOEIRO
+================================================
+
+USUARIOS CADASTRAVEIS / QUANTIDADE DE PROCESSOS
+  aline.souto: 53
+  brunaa.almeida: 100
+  carolyne.renata: 107
+  franciscosouza.neto: 101
+  francisco.inacio: 111
+  gardenio.martins: 57
+  greice.silva: 0
+  janaina.cunha: 103
+  janda.araujo: 80
+  joelson.amorim: 111
+  jose.castro: 99
+  sandra.barbosa: 64
+  valdemir.almeida: 81
+  wilton.silva: 0
+  laura.monteiro: 12
+  juanez.barroso: 6
+
+PROCESSOS SEM LOGIN ASSOCIADO
+  MARIO: 72
+  QUELE: 88
+  SEM RESPONSÁVEL: 1
+
+TOTAL DE PROCESSOS UNICOS: 1246
+
+IMPORTANTE
+1. A planilha ALBERTO pertence ao LOGIN jose.castro, preservando-se o nome original
+   do arquivo de origem exclusivamente como rastreabilidade.
+2. Greice e Wilton nao possuem registros nas planilhas fornecidas.
+3. MARIO, QUELE e um registro sem responsavel foram preservados sem atribuir
+   a pregoeiros distintos dos informados.
+4. SANDRA tem relacoes preservadas da base da versao anterior; nao foi entregue
+   uma planilha SANDRA.xlsx dentro de DIPREG.rar.
+5. Os processos de origem podem ter estado concluido ou transferido de setor:
+   as relacoes historicas continuam vinculadas ao seu responsavel.
+6. Na planilha de conferencia, cada numero de processo consta uma so vez,
+   mesmo que as fontes originais tenham repeticoes.
+7. O sistema atual roda em armazenamento local do navegador: nao ha sincronizacao
+   nem controle de acesso centralizado entre computadores.
+
+ARQUIVOS
+SELIC-v4.2-RELACOES-POR-PREGOEIRO.xlsx: relacoes separadas em abas.
+RESUMO-IMPORTACAO-DIPREG.json: quantidades e proveniencia.

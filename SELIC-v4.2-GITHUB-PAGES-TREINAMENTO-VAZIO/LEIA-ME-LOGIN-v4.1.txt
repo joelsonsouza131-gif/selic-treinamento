@@ -1,0 +1,11 @@
+SELIC v4.1 — Login, Administração e 5 Setores Integrados
+
+1. Execute INICIAR-SELIC.bat.
+2. O sistema abrirá index.html.
+3. Administrador de demonstração: admin / ADMIN1234.
+4. Solicitações de cadastro ficam pendentes até aprovação do Administrador.
+5. Perfis aprovados direcionam para DIVACP, DIVCON, CEC, CPC ou DIPREG.
+6. Em Configurações de cada setor há a aba TROCAR PERFIL.
+7. Na DIPREG, Visão Geral mostra todos os processos do setor. A aba Processos mostra apenas os processos atribuídos ao pregoeiro logado. Administradores veem todos.
+
+Observação: esta versão ainda usa armazenamento local do navegador para autenticação e permissões. É adequada para teste funcional local, não para produção multiusuário em rede.

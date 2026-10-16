@@ -1,0 +1,13 @@
+SEAD v3.9 — DIVACP / DIVCON / CEC / CPC (integrados)
+
+Para abrir, execute INICIAR-SISTEMA-4-SETORES.bat.
+Use o mesmo navegador e http://localhost:8765 em todas as abas.
+
+- Visão Geral e Processos: coluna Status entre Setor e Link, sem barra horizontal.
+- CPC: espelho funcional da CEC v3.8, com dados e notificações separados e sincronização por processo.
+- DIVACP: Agenda Todos reúne Datas de Abertura de CEC, CPC e DIPREG (quando o processo possuir esses campos); Dia, Mês e Ano também consideram estas datas.
+- DIVCON: menu lateral sem botão Agenda.
+- DIPREG: módulo ainda não criado, mas os seus dados podem ser vistos na agenda quando sincronizados ao registro.
+- Integração local: sem servidor remoto, os setores devem ser abertos no mesmo navegador e origem.
+
+Confirme envios e retornos no seu navegador Windows antes do uso operacional.

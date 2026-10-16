@@ -1,0 +1,9 @@
+SEAD v3.5 — Aviso de feriado na Data de Abertura
+
+Alteração aplicada na CEC:
+- Ao selecionar Data de Abertura em feriado nacional ou estadual cadastrado no sistema, exibe confirmação com a data e o nome do feriado.
+- Confirmar mantém a data.
+- Cancelar limpa a data e retorna o foco ao campo.
+- Pontos facultativos não disparam este aviso de feriado.
+
+Demais funcionalidades da v3.4 preservadas.
