@@ -1,0 +1,15 @@
+SELIC v4.2 — Login em tela cheia + setor obrigatório
+
+Abra o INICIAR-SELIC.bat. O login ocupará toda a área do navegador.
+
+Para entrar, informe usuário, senha e o setor autorizado.
+- Usuários de um setor escolhem o setor aprovado.
+- Administradores escolhem Administrador ou um dos setores ativos.
+- Usuários com múltiplos perfis podem entrar no setor desejado; Trocar perfil permanece disponível.
+- Senha provisória: primeiro define nova senha e segue ao setor selecionado.
+
+Administrador de demonstração: admin / ADMIN1234 / Administrador.
+
+Este é um protótipo local baseado em localStorage, NÃO é autenticação segura
+para uso em produção ou uso entre computadores.
+Os cinco sistemas e seus arquivos funcionais foram preservados.

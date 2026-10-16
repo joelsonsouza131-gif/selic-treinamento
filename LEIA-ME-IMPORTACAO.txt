@@ -1,0 +1,22 @@
+SELIC v4.2 — IMPORTACAO DE PLANILHAS PELA ADMINISTRACAO
+
+1. Abra index.html usando o servidor local do sistema, sempre no mesmo endereco (origem).
+2. Entre no perfil ADMINISTRADOR e acesse "Importar planilhas" no menu lateral.
+3. Escolha um arquivo .xlsx ou .csv e selecione o setor de destino.
+4. Para DIPREG, selecione obrigatoriamente o nome de usuario do pregoeiro:
+   ex.: greice.silva para a antiga relacao QUELE; jose.castro para ALBERTO.
+5. Clique em "Conferir planilha". Observe quantidade, repetidos e atribuicoes.
+6. Opcional: "Baixar backup do setor" antes de aplicar.
+7. Confirme a importacao para salvar os processos na base do setor.
+8. Entre no setor correspondente; cada usuario DIPREG vera a sua propria relacao
+   na aba Processos e nos Relatorios. A Visao Geral permanece consolidada.
+
+ATENCAO: esta versao armazena os processos no navegador do computador usado.
+Em outros computadores, as importacoes NAO sao compartilhadas automaticamente.
+O modulo de importacao nao substitui um banco de dados e autorizacao no servidor.
+
+A funcao evita repeticoes por numero de processo, complementa campos vazios
+preservando os dados ja editados e permite realocar ao pregoeiro selecionado
+na importacao DIPREG.
+
+Formatos suportados: XLSX e CSV. Excel XLS antigo requer conversao para XLSX.

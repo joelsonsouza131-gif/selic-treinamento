@@ -1,0 +1,8 @@
+SEAD v3.8 — Correção Agenda > Todos da CEC
+
+- Corrigida chamada a função parseIsoDate inexistente que interrompia a tabela com registros.
+- Todos: lista processos com Data de Abertura preenchida de qualquer data/setor/status.
+- Compatibilidade com os campos históricos dataAberturaCec, aberturaPregaoCec e dataAbertura.
+- São apresentadas as 12 colunas originais e a ordenação por data e hora.
+- Dia, Mês, Ano, DIVACP e DIVCON permanecem inalterados.
+- Use o iniciador INICIAR-SISTEMA-3-SETORES.bat no mesmo navegador/origem onde os dados estão salvos.

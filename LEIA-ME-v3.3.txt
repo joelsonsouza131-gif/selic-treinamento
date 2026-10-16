@@ -1,0 +1,11 @@
+SEAD v3.3 — DIVACP + DIVCON + CEC
+
+Ajustes principais:
+- CEC: campos operacionais obrigatórios.
+- Valor Estimado da CEC vem da DIVACP e é somente consulta.
+- Valor Adjudicado usa máscara R$ durante a digitação.
+- Filtros fixos em Visão Geral e Processos: PROCESSOS, PUBLICAR LICON, REL ANDAMENTO, SUSPENSO QUEST IMPUG, SUSPENSO PARA PARECER, RECURSO e FINALIZADOS.
+- Status RECURSO exige Fim dos Recursos, Fim das Contrarrazões e Fim da Decisão.
+- Agenda diária automática pelos dados do processo e Data de Abertura.
+- Agenda: Data, Dia da Semana, Hora, Nr. Processo, Modalidade, Nr. Licitação, Status, Objeto, Órgão, Itens/Lotes, Responsável e Valor Estimado.
+- Mês/Ano da Agenda usam as Datas de Abertura dos processos.

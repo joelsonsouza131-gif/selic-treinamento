@@ -1,0 +1,16 @@
+SEAD v3.9.1 — CORREÇÃO DO RECEBIMENTO APÓS ATUALIZAR A PÁGINA
+
+Mantém DIVACP, DIVCON, CEC e CPC da v3.9.
+
+Correção: na CEC e CPC, o recebimento é gravado tanto no armazenamento
+local do setor quanto no registro compartilhado. Isso impede que um estado
+antigo de aguardando recebimento sobrescreva a confirmação ao atualizar.
+
+Não altera o layout nem as demais funções.
+
+Como testar:
+- Usar INICIAR-SISTEMA-4-SETORES.bat e o mesmo navegador.
+- Encaminhar um processo à CPC ou CEC; confirmar Receber.
+- Apertar F5; não deverá reaparecer na fila pendente.
+
+Não apagar dados do navegador para instalar esta versão.
